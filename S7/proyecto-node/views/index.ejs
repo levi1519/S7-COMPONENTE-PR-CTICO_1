@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sistema CRUD - Node.js + Express</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Sistema de Registro CRUD - Node.js</h1>
+
+    <div class="card">
+      <h2 id="form-title">Nuevo Registro</h2>
+
+      <form id="formulario">
+        <input type="hidden" id="registro-id">
+
+        <div class="form-group">
+          <label for="dni">DNI *</label>
+          <input type="text" id="dni" name="dni" placeholder="Ej: 1234567890" required>
+          <span class="error" id="error-dni"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="nombres">Nombres *</label>
+          <input type="text" id="nombres" name="nombres" placeholder="Ingrese nombres completos" required>
+          <span class="error" id="error-nombres"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="apellidos">Apellidos *</label>
+          <input type="text" id="apellidos" name="apellidos" placeholder="Ingrese apellidos completos" required>
+          <span class="error" id="error-apellidos"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="fechaNacimiento">Fecha de Nacimiento *</label>
+          <input type="date" id="fechaNacimiento" name="fechaNacimiento" required>
+          <span class="error" id="error-fechaNacimiento"></span>
+        </div>
+
+        <div class="form-group">
+          <label>Género *</label>
+          <div class="radio-group">
+            <div class="radio-option">
+              <input type="radio" id="masculino" name="genero" value="Masculino" required>
+              <label for="masculino">Masculino</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" id="femenino" name="genero" value="Femenino">
+              <label for="femenino">Femenino</label>
+            </div>
+            <div class="radio-option">
+              <input type="radio" id="otro" name="genero" value="Otro">
+              <label for="otro">Otro</label>
+            </div>
+          </div>
+          <span class="error" id="error-genero"></span>
+        </div>
+
+        <div class="form-group">
+          <label for="ciudad">Ciudad *</label>
+          <select id="ciudad" name="ciudad" required>
+            <option value="" disabled selected>Seleccione una ciudad</option>
+            <option value="Quito">Quito</option>
+            <option value="Guayaquil">Guayaquil</option>
+            <option value="Cuenca">Cuenca</option>
+            <option value="Ambato">Ambato</option>
+            <option value="Loja">Loja</option>
+            <option value="Manta">Manta</option>
+          </select>
+          <span class="error" id="error-ciudad"></span>
+        </div>
+
+        <div class="button-group">
+          <button type="submit" class="btn-agregar" id="btn-submit">Agregar Registro</button>
+          <button type="button" class="btn-cancelar" id="btn-cancelar" style="display: none;">Cancelar</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="card">
+      <h2>Registros Guardados (Base de Datos SQLite)</h2>
+
+      <% if (registros.length === 0) { %>
+        <p class="no-registros">No hay registros en la base de datos</p>
+      <% } else { %>
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>DNI</th>
+              <th>NOMBRES</th>
+              <th>APELLIDOS</th>
+              <th>FECHA NAC.</th>
+              <th>GÉNERO</th>
+              <th>CIUDAD</th>
+              <th>ACCIONES</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% registros.forEach(registro => { %>
+              <tr>
+                <td><%= registro.id %></td>
+                <td><%= registro.dni %></td>
+                <td><%= registro.nombres %></td>
+                <td><%= registro.apellidos %></td>
+                <td><%= registro.fechaNacimiento %></td>
+                <td><%= registro.genero %></td>
+                <td><%= registro.ciudad %></td>
+                <td class="acciones">
+                  <button class="btn-editar" onclick="editarRegistro(<%= registro.id %>)">✏️ Editar</button>
+                  <button class="btn-eliminar" onclick="eliminarRegistro(<%= registro.id %>)">🗑️ Eliminar</button>
+                </td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      <% } %>
+    </div>
+  </div>
+
+  <script src="/script.js"></script>
+</body>
+</html>
